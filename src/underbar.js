@@ -106,8 +106,6 @@ var _ = {};
     return _.filter(array, function(elem,index,collection){
        //var test = [1,2,3,3]
        //var test
-       console.log('index',index);
-       console.log(collection.indexOf(elem));
        return collection.indexOf(elem) >= index;
 
     });
@@ -116,9 +114,14 @@ var _ = {};
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var results = [];
+    _.each(collection,function(value){
+      results.push(iterator(value));
+    });
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    return results;
   };
 
   /*
