@@ -84,7 +84,7 @@ var _ = {};
       var results = [];
 
       _.each(collection,function(elem,index,coll){
-        if(test(elem)){
+        if(test(elem,index,coll)){
           results.push(elem);
         }
       })
@@ -96,13 +96,21 @@ var _ = {};
   _.reject = function(collection, quiz) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    return _.filter(collection, function (v){
-      return !quiz (v);
+    return _.filter(collection, function (v,i,c){
+      return !quiz (v,i,c);
     });
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    return _.filter(array, function(elem,index,collection){
+       //var test = [1,2,3,3]
+       //var test
+       console.log('index',index);
+       console.log(collection.indexOf(elem));
+       return collection.indexOf(elem) >= index;
+
+    });
   };
 
 
