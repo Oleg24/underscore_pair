@@ -311,6 +311,18 @@ var _ = {};
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    array = array.slice();
+    for(var i =0; i<array.length;i++){
+      var randomInd = Math.floor(Math.random()*array.length);
+      // take next value
+      var aux = array[i];
+      // put a random value in the place of next value
+      array[i] = array[randomInd];
+
+      // put the next value in the place of random value.
+      array[randomInd] = aux;
+    }
+    return array;
   };
 
 
@@ -320,11 +332,44 @@ var _ = {};
    */
 
 
-  // Sort the object's values by a criterion produced by an iterator.
+  // Sort the array's values by a criterion produced by an iterator.
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+
+
+    var compare = function(collection, key, nextKey){
+      var a = collection[key];
+      var b = collection[nextKey];
+      if(a === undefined){
+        return true;
+      }
+      if(b === undefined){
+        return false;
+      }
+      if(typeof iterator === 'string' ){
+        return a[iterator] > b[iterator];
+      }
+        return iterator(a) > iterator(b);
+    }
+    var swap = function(collection, i, j ){
+      var aux = collection[i];
+      collection[i] = collection[j];
+      collection[j] = aux;
+    }
+    for(var j=0; j<collection.length-1; j++){
+      for(var i=0; i<collection.length-1; i++){
+         var key = i;
+         var nextKey = i+1;
+        // if collection[key] > collection[next key]
+        if(compare(collection, key, nextKey)){
+          swap(collection, key, nextKey);
+        }
+      }
+    }
+    console.log(collection);
+    return collection;
   };
 
   // Zip together two or more arrays with elements of the same index
